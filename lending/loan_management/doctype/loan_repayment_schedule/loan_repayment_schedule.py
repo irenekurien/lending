@@ -556,7 +556,7 @@ class LoanRepaymentSchedule(Document):
 
 					if self.restructure_type in ("Pre Payment", "Advance Payment") and completed_tenure >= 1:
 						self.get("repayment_schedule")[
-							completed_tenure - 1
+							completed_tenure
 						].balance_loan_amount = self.current_principal_amount
 
 					if after_bpi and not self.restructure_type:
@@ -638,7 +638,10 @@ class LoanRepaymentSchedule(Document):
 
 					# Pre payment made even before the first EMI
 					if getdate(self.posting_date) < getdate(first_date):
-						next_emi_date = get_cyclic_date(self.loan_product, self.posting_date, ignore_bpi=True)
+						if self.repayment_schedule_type == "Monthly as per cycle date":
+							next_emi_date = get_cyclic_date(self.loan_product, self.posting_date, ignore_bpi=True)
+						else:
+							next_emi_date = first_date
 					else:
 						next_emi_date = self.get_next_payment_date(prev_repayment_date)
 
