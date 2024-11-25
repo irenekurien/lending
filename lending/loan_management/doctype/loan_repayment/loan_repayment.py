@@ -889,6 +889,9 @@ class LoanRepayment(AccountsController):
 				loan_demand.name == payment.loan_demand
 			).run()
 
+			if cancel:
+				frappe.db.set_value("Loan Demand", payment.loan_demand, "docstatus", 1)
+
 	def update_limits(self, cancel=0):
 		principal_amount_paid = self.principal_amount_paid
 		if cancel:
