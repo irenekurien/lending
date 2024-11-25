@@ -682,13 +682,11 @@ def get_restructure_details(
 		"loan_disbursement": loan_disbursement,
 	}
 
-	if repayment_type == "Advance Payment":
-		loan_restructure["new_repayment_method"] = "Repay Over Number of Periods"
-		loan_restructure["new_repayment_period_in_months"] = pending_tenure
-	else:
-		loan_restructure["new_repayment_method"] = "Repay Fixed Amount per Period"
-		loan_restructure["new_monthly_repayment_amount"] = monthly_repayment_amount
-		loan_restructure["new_repayment_period_in_months"] = pending_tenure
+	repayment_method = frappe.db.get_value("Loan", loan, "repayment_method")
+
+	loan_restructure["new_repayment_method"] = repayment_method
+	loan_restructure["new_repayment_period_in_months"] = pending_tenure
+	loan_restructure["new_monthly_repayment_amount"] = monthly_repayment_amount
 
 	return loan_restructure
 
