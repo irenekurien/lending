@@ -3,6 +3,7 @@
 
 
 import frappe
+import datetime
 from frappe import _
 from frappe.query_builder.functions import Round, Sum
 from frappe.utils import add_days, cint, flt, get_datetime, getdate
@@ -2178,7 +2179,10 @@ def get_last_demand_date(
 		"MAX(demand_date)",
 	)
 
-	if demand_subtype == "Interest" and last_demand_date and status != "Closed":
+	if isinstance(posting_date, str):
+		posting_date = datetime.datetime.strptime(posting_date, "%Y-%m-%d %H:%M:%S").date()
+
+	if demand_subtype == "Interest" and last_demand_date and status != "Closed" and posting_date != last_demand_date:
 		last_demand_date = add_days(last_demand_date, -1)
 
 	if not last_demand_date:
