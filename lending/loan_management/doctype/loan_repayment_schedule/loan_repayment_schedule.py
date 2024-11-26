@@ -404,7 +404,10 @@ class LoanRepaymentSchedule(Document):
 				"Pro-rated calendar months",
 			]
 		) and self.repayment_frequency == "Monthly":
-			next_payment_date = add_single_month(payment_date)
+			if self.repayment_date_on == "Start of the next month":
+				next_payment_date = get_first_day(add_single_month(payment_date))
+			else:
+				next_payment_date = add_single_month(payment_date)
 			payment_date = next_payment_date
 		elif self.repayment_frequency == "Weekly":
 			payment_date = add_days(payment_date, 7)
