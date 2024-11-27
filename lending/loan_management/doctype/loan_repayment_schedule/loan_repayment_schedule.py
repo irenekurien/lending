@@ -507,7 +507,7 @@ class LoanRepaymentSchedule(Document):
 					prev_repayment_date = row.payment_date
 
 				if (
-					getdate(self.repayment_start_date) > getdate(prev_schedule.repayment_start_date) or after_bpi
+					getdate(self.repayment_start_date) >= getdate(prev_schedule.repayment_start_date) or after_bpi
 				):
 					for row in prev_schedule.get(schedule_field):
 						if getdate(row.payment_date) < getdate(self.posting_date) or (
