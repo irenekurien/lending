@@ -2193,12 +2193,11 @@ def get_last_demand_date(
 	return last_demand_date
 
 
-def get_latest_accrual_date(loan, posting_date, interest_type="Interest", loan_disbursement=None):
+def get_latest_accrual_date(loan, posting_date, interest_type="Normal Interest", loan_disbursement=None):
 	filters = {
 		"loan": loan,
 		"docstatus": 1,
 		"interest_type": interest_type,
-		"posting_date": (">", posting_date),
 	}
 
 	if loan_disbursement:
