@@ -248,7 +248,14 @@ class LoanRepaymentSchedule(Document):
 		interest_share_percentage,
 		partner_schedule_type=None,
 	):
-		payment_date = self.repayment_start_date
+		rows_added = len(self.get("repayment_schedule")) - 1
+
+		if rows_added < 0:
+			payment_date = self.repayment_start_date
+		else:
+			payment_date = self.get_next_payment_date(
+				self.get("repayment_schedule")[rows_added].payment_date)
+
 		carry_forward_interest = self.adjusted_interest
 		moratorium_interest = 0
 		row = 0
