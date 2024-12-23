@@ -103,7 +103,7 @@ class LoanRepayment(AccountsController):
 			self.get("prepayment_charges"),
 		)
 
-		if not self.principal_amount_paid >= self.pending_principal_amount:
+		if not self.principal_amount_paid > self.pending_principal_amount:
 			if self.is_term_loan and self.repayment_type in ("Advance Payment", "Pre Payment"):
 				amounts = calculate_amounts(
 					self.against_loan,
