@@ -125,14 +125,15 @@ class LoanRepaymentSchedule(Document):
 			self.posting_date,
 		)
 
-		if payable_interest > 0:
+		posting_date = add_days(self.posting_date, -1)
+		if payable_interest > 0 and last_accrual_date < posting_date:
 			make_loan_interest_accrual_entry(
 				self.loan,
 				self.current_principal_amount,
 				flt(payable_interest, precision),
 				"",
 				last_accrual_date,
-				add_days(self.posting_date, -1),
+				posting_date,
 				"Regular",
 				"Normal Interest",
 				self.rate_of_interest,

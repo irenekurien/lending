@@ -254,7 +254,7 @@ def calculate_accrual_amount_for_loans(
 			posting_date=posting_date,
 		)
 
-		if payable_interest > 0:
+		if payable_interest > 0 and last_accrual_date < posting_date:
 			make_loan_interest_accrual_entry(
 				loan.name,
 				pending_principal_amount,
